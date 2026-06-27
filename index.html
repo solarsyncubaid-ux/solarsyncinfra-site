@@ -2,180 +2,564 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SolarSync Infra | GPU Infrastructure</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <meta name="description" content="Spin up high-performance GPU environments (A100/H100) for training and inference. Fast, scalable, and reliable.">
+  <title>SolarSync Infra | Enterprise GPU Infrastructure</title>
+  <meta name="description" content="SolarSync Infra helps AI teams source enterprise GPU infrastructure, bare-metal compute, hardware GPUs, and high-density colocation through trusted infrastructure partners." />
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      background: #0b0b0f;
-      color: #fff;
+    :root {
+      --bg:#06070c;
+      --card:#111522;
+      --text:#f5f7fb;
+      --muted:#9ca7b7;
+      --line:rgba(255,255,255,.1);
+      --blue:#2f80ff;
+      --cyan:#00d4ff;
+      --green:#45e58b;
     }
 
-    .container {
-      max-width: 1100px;
-      margin: auto;
-      padding: 20px;
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter,sans-serif;
+      background:
+        radial-gradient(circle at top left,rgba(47,128,255,.25),transparent 32%),
+        radial-gradient(circle at top right,rgba(0,212,255,.18),transparent 30%),
+        var(--bg);
+      color:var(--text);
     }
 
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 0;
+    a{text-decoration:none;color:inherit}
+    .container{width:min(1160px,calc(100% - 40px));margin:auto}
+
+    header{
+      position:sticky;
+      top:0;
+      z-index:99;
+      background:rgba(6,7,12,.78);
+      backdrop-filter:blur(18px);
+      border-bottom:1px solid var(--line);
     }
 
-    header h3 {
-      margin: 0;
+    .nav{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:18px 0;
     }
 
-    .nav a {
-      margin-left: 20px;
-      text-decoration: none;
-      color: #aaa;
-      font-size: 14px;
+    .logo{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:800;
+      font-size:20px;
+      letter-spacing:-.04em;
     }
 
-    .nav a:hover {
-      color: white;
+    .mark{
+      width:36px;
+      height:36px;
+      border-radius:12px;
+      background:linear-gradient(135deg,var(--blue),var(--cyan));
+      display:grid;
+      place-items:center;
+      font-weight:900;
+      box-shadow:0 0 35px rgba(0,212,255,.35);
     }
 
-    h1 {
-      font-size: 48px;
-      line-height: 1.2;
-      margin-top: 60px;
+    .links{
+      display:flex;
+      gap:24px;
+      align-items:center;
+      font-size:14px;
+      color:var(--muted);
+      font-weight:600;
     }
 
-    h2 {
-      font-size: 30px;
-      margin-bottom: 10px;
+    .links a:hover{color:white}
+
+    .nav-btn{
+      padding:10px 16px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      color:white;
+      background:rgba(255,255,255,.05);
     }
 
-    p {
-      color: #aaa;
-      line-height: 1.6;
+    .hero{
+      padding:95px 0 55px;
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:50px;
+      align-items:center;
     }
 
-    .btn {
-      display: inline-block;
-      padding: 12px 24px;
-      margin-top: 20px;
-      margin-right: 10px;
-      background: linear-gradient(90deg, #6c63ff, #00c6ff);
-      border-radius: 8px;
-      text-decoration: none;
-      color: white;
-      font-weight: 600;
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:9px 14px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.05);
+      color:#cfe7ff;
+      font-size:13px;
+      font-weight:700;
+      margin-bottom:24px;
     }
 
-    .section {
-      margin-top: 80px;
+    .dot{
+      width:8px;
+      height:8px;
+      background:var(--green);
+      border-radius:99px;
+      box-shadow:0 0 20px var(--green);
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
+    h1{
+      margin:0 0 24px;
+      font-size:clamp(44px,6vw,78px);
+      line-height:.98;
+      letter-spacing:-.075em;
     }
 
-    .card {
-      background: #151520;
-      padding: 20px;
-      border-radius: 12px;
-      transition: 0.3s;
+    .grad{
+      background:linear-gradient(90deg,#fff,#9fc7ff,#70e8ff);
+      -webkit-background-clip:text;
+      color:transparent;
     }
 
-    .card:hover {
-      transform: translateY(-5px);
-      background: #1c1c2a;
+    .hero p{
+      max-width:650px;
+      font-size:18px;
+      line-height:1.75;
+      color:var(--muted);
+      margin:0 0 32px;
     }
 
-    footer {
-      text-align: center;
-      margin-top: 100px;
-      color: #666;
+    .buttons{
+      display:flex;
+      flex-wrap:wrap;
+      gap:14px;
+      margin-bottom:28px;
     }
 
-    footer a {
-      color: #aaa;
-      text-decoration: none;
+    .btn{
+      padding:14px 20px;
+      border-radius:14px;
+      font-weight:800;
+      font-size:14px;
+      transition:.2s;
     }
 
+    .btn:hover{transform:translateY(-2px)}
+
+    .primary{
+      background:linear-gradient(90deg,var(--blue),var(--cyan));
+      box-shadow:0 18px 45px rgba(0,212,255,.18);
+    }
+
+    .secondary{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.05);
+    }
+
+    .pills{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .pill{
+      padding:8px 12px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.04);
+      border-radius:999px;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    .visual{
+      border:1px solid var(--line);
+      border-radius:28px;
+      background:
+        linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.025));
+      box-shadow:0 30px 80px rgba(0,0,0,.45);
+      overflow:hidden;
+    }
+
+    .topbar{
+      padding:16px;
+      border-bottom:1px solid var(--line);
+      display:flex;
+      gap:8px;
+    }
+
+    .circle{width:11px;height:11px;border-radius:50%;background:#ef4444}
+    .circle:nth-child(2){background:#f59e0b}
+    .circle:nth-child(3){background:#22c55e}
+
+    .terminal{
+      padding:24px;
+      font-family:monospace;
+      color:#d8dee9;
+      line-height:2;
+      font-size:13px;
+    }
+
+    .cyan{color:#67e8f9}
+    .green{color:#86efac}
+    .yellow{color:#fde68a}
+
+    section{padding:80px 0}
+
+    .head{
+      max-width:780px;
+      margin-bottom:34px;
+    }
+
+    h2{
+      font-size:clamp(32px,4vw,52px);
+      letter-spacing:-.055em;
+      margin:0 0 14px;
+    }
+
+    .head p{
+      color:var(--muted);
+      line-height:1.7;
+      margin:0;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:18px;
+    }
+
+    .card{
+      min-height:190px;
+      padding:26px;
+      border-radius:24px;
+      border:1px solid var(--line);
+      background:linear-gradient(180deg,rgba(255,255,255,.065),rgba(255,255,255,.025));
+      transition:.25s;
+    }
+
+    .card:hover{
+      transform:translateY(-5px);
+      background:rgba(255,255,255,.075);
+    }
+
+    .icon{
+      width:44px;
+      height:44px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      background:rgba(47,128,255,.18);
+      margin-bottom:18px;
+      font-size:21px;
+    }
+
+    .card h3{
+      margin:0 0 10px;
+      font-size:19px;
+      letter-spacing:-.03em;
+    }
+
+    .card p{
+      color:var(--muted);
+      line-height:1.65;
+      margin:0;
+      font-size:14px;
+    }
+
+    .split{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:22px;
+    }
+
+    .panel{
+      padding:30px;
+      border-radius:26px;
+      border:1px solid var(--line);
+      background:rgba(17,21,34,.85);
+    }
+
+    .list{
+      display:grid;
+      gap:14px;
+      margin-top:20px;
+    }
+
+    .item{
+      display:flex;
+      gap:12px;
+      color:var(--muted);
+      line-height:1.6;
+    }
+
+    .check{color:var(--green);font-weight:900}
+
+    .cta{
+      text-align:center;
+      padding:62px 28px;
+      border-radius:30px;
+      border:1px solid var(--line);
+      background:
+        linear-gradient(135deg,rgba(47,128,255,.25),rgba(0,212,255,.12)),
+        var(--card);
+      box-shadow:0 30px 80px rgba(0,0,0,.4);
+    }
+
+    .cta p{
+      color:var(--muted);
+      max-width:680px;
+      margin:0 auto 26px;
+      line-height:1.7;
+    }
+
+    footer{
+      border-top:1px solid var(--line);
+      padding:34px 0;
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    .footer{
+      display:flex;
+      justify-content:space-between;
+      gap:20px;
+      flex-wrap:wrap;
+    }
+
+    .footer a{color:white}
+
+    @media(max-width:850px){
+      .links{display:none}
+      .hero,.split{grid-template-columns:1fr}
+      .grid{grid-template-columns:1fr}
+      .hero{padding-top:60px}
+    }
   </style>
 </head>
+
 <body>
 
-<div class="container">
+<header>
+  <div class="container nav">
+    <a class="logo" href="#">
+      <span class="mark">S</span>
+      <span>SolarSync Infra</span>
+    </a>
 
-  <!-- HEADER -->
-  <header>
-    <h3>SolarSync Infra</h3>
-    <div class="nav">
-      <a href="#">Home</a>
+    <div class="links">
       <a href="#services">Services</a>
-      <a href="#how">How it Works</a>
-      <a href="https://calendly.com/YOUR-LINK" target="_blank">Book Call</a>
-    </div>
-  </header>
-
-  <!-- HERO -->
-  <h1>High-Performance GPU Infrastructure — Without the Headaches</h1>
-  <p>Spin up A100 / H100 multi-GPU environments in hours. Built for teams training models and scaling inference.</p>
-
-  <a href="https://calendly.com/YOUR-LINK" target="_blank" class="btn">Book a Free Setup Call</a>
-  <a href="mailto:ubaid@solarsyncinfra.xyz" class="btn">Contact Us</a>
-
-  <!-- SERVICES -->
-  <div class="section" id="services">
-    <h2>What We Offer</h2>
-    <div class="grid">
-      <div class="card">Multi-GPU Nodes (2x–8x A100 / H100)</div>
-      <div class="card">Fast Deployment (Same Day)</div>
-      <div class="card">Multi-Region (US / EU / Asia)</div>
-      <div class="card">Full Control Environments</div>
+      <a href="#hardware">Hardware</a>
+      <a href="#process">Process</a>
+      <a href="https://www.linkedin.com/in/ubaid-mohammed-shaikh-a06b19390/" target="_blank">LinkedIn</a>
+      <a class="nav-btn" href="#contact">Request Capacity</a>
     </div>
   </div>
+</header>
 
-  <!-- USE CASES -->
-  <div class="section">
-    <h2>Use Cases</h2>
-    <div class="grid">
-      <div class="card">Model Training</div>
-      <div class="card">Fine-tuning LLMs</div>
-      <div class="card">Parallel Inference</div>
-      <div class="card">Scaling Experiments</div>
+<main>
+
+  <section class="container hero">
+    <div>
+      <div class="badge"><span class="dot"></span> Enterprise AI Infrastructure Sourcing</div>
+
+      <h1>
+        GPU infrastructure for AI teams that need to move <span class="grad">fast.</span>
+      </h1>
+
+      <p>
+        SolarSync Infra helps AI companies and enterprises source hardware GPUs,
+        bare-metal compute, and high-density colocation through trusted infrastructure partners.
+      </p>
+
+      <div class="buttons">
+        <a class="btn primary" href="mailto:ubaid@solarsyncinfra.xyz?subject=GPU%20Infrastructure%20Requirement">Send Requirement →</a>
+        <a class="btn secondary" href="https://calendly.com/YOUR-LINK" target="_blank">Book a Call</a>
+      </div>
+
+      <div class="pills">
+        <span class="pill">B300 / B200 / H200 / H100</span>
+        <span class="pill">Bare Metal</span>
+        <span class="pill">Hardware Sourcing</span>
+        <span class="pill">Colocation</span>
+      </div>
+    </div>
+
+    <div class="visual">
+      <div class="topbar">
+        <span class="circle"></span><span class="circle"></span><span class="circle"></span>
+      </div>
+      <div class="terminal">
+        <div><span class="cyan">$</span> request_capacity --gpu B300 --nodes 128</div>
+        <div><span class="green">✓</span> Hardware route identified</div>
+        <div><span class="green">✓</span> Colocation requirement reviewed</div>
+        <div><span class="yellow">•</span> Pricing, lead time & deployment alignment</div>
+        <div><span class="green">✓</span> Buyer-supplier introduction ready</div>
+        <br>
+        <div>SolarSync Infra → enterprise compute sourcing</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="container">
+      <div class="head">
+        <h2>What we help you source</h2>
+        <p>
+          We connect serious AI infrastructure demand with qualified suppliers,
+          operators, and deployment partners.
+        </p>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <div class="icon">🧠</div>
+          <h3>Enterprise GPU Sourcing</h3>
+          <p>Access to GPU opportunities across H100, H200, B200, B300 and other AI accelerators.</p>
+        </div>
+
+        <div class="card">
+          <div class="icon">⚙️</div>
+          <h3>Bare-Metal AI Compute</h3>
+          <p>Dedicated GPU infrastructure for training, inference, fine-tuning and production workloads.</p>
+        </div>
+
+        <div class="card">
+          <div class="icon">🏢</div>
+          <h3>High-Density Colocation</h3>
+          <p>Support sourcing AI-ready data center capacity for power, cooling and deployment requirements.</p>
+        </div>
+
+        <div class="card">
+          <div class="icon">📦</div>
+          <h3>Hardware Procurement</h3>
+          <p>GPU servers, clusters and infrastructure hardware through trusted supply channels.</p>
+        </div>
+
+        <div class="card">
+          <div class="icon">🌍</div>
+          <h3>Global Deployment Routes</h3>
+          <p>Coverage across North America, Europe, Middle East and Asia depending on supply and timeline.</p>
+        </div>
+
+        <div class="card">
+          <div class="icon">🤝</div>
+          <h3>Strategic Introductions</h3>
+          <p>Connecting enterprise buyers with infrastructure providers, operators, OEMs and capacity owners.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="hardware">
+    <div class="container split">
+      <div class="panel">
+        <div class="head">
+          <h2>Built around serious GPU requirements</h2>
+          <p>
+            SolarSync Infra focuses on large-value AI infrastructure opportunities where
+            availability, pricing, power, cooling and deployment timelines matter.
+          </p>
+        </div>
+
+        <div class="list">
+          <div class="item"><span class="check">✓</span><span>GPU cluster sourcing for AI labs and enterprise buyers.</span></div>
+          <div class="item"><span class="check">✓</span><span>Hardware GPU procurement and bare-metal deployment routes.</span></div>
+          <div class="item"><span class="check">✓</span><span>Colocation sourcing for high-density AI deployments.</span></div>
+          <div class="item"><span class="check">✓</span><span>Support for commercial alignment, timelines and introductions.</span></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="head">
+          <h2>Supported infrastructure focus</h2>
+          <p>Common requirements we help evaluate and route.</p>
+        </div>
+
+        <div class="grid" style="grid-template-columns:1fr 1fr">
+          <div class="card"><h3>B300</h3><p>Next-generation AI deployments and large inference/training clusters.</p></div>
+          <div class="card"><h3>B200</h3><p>Enterprise HGX-class GPU infrastructure and large-scale compute.</p></div>
+          <div class="card"><h3>H200 / H100</h3><p>Training, inference, fine-tuning and production AI workloads.</p></div>
+          <div class="card"><h3>Colocation</h3><p>AI-ready facilities, power capacity, cooling and deployment support.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="process">
+    <div class="container">
+      <div class="head">
+        <h2>How it works</h2>
+        <p>A simple process designed for infrastructure buyers and suppliers.</p>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <div class="icon">1</div>
+          <h3>Share requirement</h3>
+          <p>GPU type, node count, region, timeline, contract term, power, cooling and workload details.</p>
+        </div>
+
+        <div class="card">
+          <div class="icon">2</div>
+          <h3>Review available routes</h3>
+          <p>We evaluate suitable hardware, bare-metal, cloud and colocation options through partner networks.</p>
+        </div>
+
+        <div class="card">
+          <div class="icon">3</div>
+          <h3>Align and introduce</h3>
+          <p>Once pricing, timeline and requirements are aligned, we support the introduction and next steps.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="container">
+      <div class="cta">
+        <h2>Looking for GPU infrastructure or colocation?</h2>
+        <p>
+          Send your requirement and we’ll help review the best available route for your workload,
+          deployment timeline and commercial needs.
+        </p>
+
+        <div class="buttons" style="justify-content:center;margin-bottom:0">
+          <a class="btn primary" href="mailto:ubaid@solarsyncinfra.xyz?subject=GPU%20Infrastructure%20Requirement&body=GPU%20type:%0ANode%20count:%0ARegion:%0ATerm:%0ATimeline:%0AColocation%20needed:%0AWorkload:">Email Requirement</a>
+          <a class="btn secondary" href="https://www.linkedin.com/in/ubaid-mohammed-shaikh-a06b19390/" target="_blank">Connect on LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container footer">
+    <div>© 2026 SolarSync Infra. Enterprise AI Infrastructure Sourcing.</div>
+    <div>
+      <a href="mailto:ubaid@solarsyncinfra.xyz">ubaid@solarsyncinfra.xyz</a>
+      &nbsp;|&nbsp;
+      <a href="https://solarsyncinfra.xyz">solarsyncinfra.xyz</a>
+      &nbsp;|&nbsp;
+      <a href="https://www.linkedin.com/in/ubaid-mohammed-shaikh-a06b19390/" target="_blank">LinkedIn</a>
     </div>
   </div>
-
-  <!-- HOW IT WORKS -->
-  <div class="section" id="how">
-    <h2>How It Works</h2>
-    <div class="grid">
-      <div class="card">Tell us your workload</div>
-      <div class="card">We configure your setup</div>
-      <div class="card">You start running in hours</div>
-    </div>
-  </div>
-
-  <!-- CTA -->
-  <div class="section">
-    <h2>Ready to Run Your Workloads?</h2>
-    <p>We’ll help you get the right setup without wasting time.</p>
-    <a href="https://calendly.com/YOUR-LINK" target="_blank" class="btn">Book a Call</a>
-  </div>
-
-  <!-- FOOTER -->
-  <footer>
-    <p>SolarSync Infra — GPU Infrastructure for AI Teams</p>
-    <p><a href="mailto:ubaid@solarsyncinfra.xyz">ubaid@solarsyncinfra.xyz</a></p>
-  </footer>
-
-</div>
+</footer>
 
 </body>
 </html>
