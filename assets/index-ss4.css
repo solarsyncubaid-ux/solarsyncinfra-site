@@ -141,22 +141,270 @@ html.ssm-lock{overflow:hidden;scrollbar-gutter:stable}
 .ssm-socials-logo{width:1.15em;height:1.15em;flex:0 0 auto;border-radius:.2em;background:#fff}
 .ssm-socials-logo svg{display:block;width:100%;height:100%}
 
-/* SolarSync Infra — motion polish only. Visual styles and layout remain unchanged. */
-:where(a, button, [role="button"], input, select, textarea) {
-  transition-property: color, background-color, border-color, box-shadow, opacity;
-  transition-duration: 180ms;
-  transition-timing-function: ease;
+/* ===== Responsive repair: tablet + mobile (desktop layout remains unchanged) ===== */
+html, body { width:100%; max-width:100%; overflow-x:clip; }
+#root { width:100%; min-width:0; overflow-x:clip; }
+*, *::before, *::after { min-width:0; }
+img, canvas, svg, video { max-width:100%; }
+
+/* Tablet widths: give the composition room and stop oversized art from pushing content */
+@media (min-width:640px) and (max-width:1023px) {
+  section { padding-left:clamp(1.25rem,4vw,2.5rem)!important; padding-right:clamp(1.25rem,4vw,2.5rem)!important; }
+  section.py-20, section.py-16 { padding-top:clamp(3.5rem,7vw,5rem)!important; padding-bottom:clamp(3.5rem,7vw,5rem)!important; }
+  .ss-globe { width:min(42vw,360px); max-width:100%; margin-inline:auto; }
+  .ss-globe-canvas { max-width:100%; }
+  .ss-ascii, .ss-threads { max-width:100%; }
+  .ss-ascii canvas, .ss-threads-canvas { width:100%!important; max-width:100%; }
+  .liquid-glass { -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px); }
+  #process .grid { gap:1rem; }
 }
-:where(a, button, [role="button"]):focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 3px;
+
+/* Phones: stack sections cleanly, keep motion inside its section, and avoid clipped text */
+@media (max-width:639px) {
+  html { scroll-padding-top:5.5rem; }
+  body { overflow-x:clip; }
+  section { padding-left:1rem!important; padding-right:1rem!important; }
+  section.py-20, section.py-16 { padding-top:3.25rem!important; padding-bottom:3.25rem!important; }
+  section .max-w-7xl { width:100%; max-width:100%; }
+  section .grid { grid-template-columns:minmax(0,1fr); }
+  section [class*="gap-12"] { gap:1.75rem; }
+  section [class*="gap-8"] { gap:1.25rem; }
+  section [class*="p-16"] { padding:1.25rem!important; }
+  section [class*="p-12"] { padding:1.25rem!important; }
+  section [class*="p-8"] { padding:1.125rem!important; }
+  section [class*="p-6"] { padding:1rem!important; }
+  h1 { font-size:clamp(2.35rem,10vw,3.4rem)!important; line-height:1.06!important; letter-spacing:-.035em; overflow-wrap:anywhere; }
+  h2 { font-size:clamp(1.8rem,7.5vw,2.5rem)!important; line-height:1.12!important; overflow-wrap:anywhere; }
+  h3 { overflow-wrap:anywhere; }
+  p, a, button, span { overflow-wrap:anywhere; }
+  .ss-globe { width:min(82vw,300px); max-width:100%; margin:1.5rem auto 0; }
+  .ss-globe-canvas { width:100%!important; height:100%!important; touch-action:pan-y; }
+  .ss-countries { font-size:clamp(.9rem,4vw,1.05rem); line-height:1.65; }
+  .ss-ascii, .ss-threads { inset:0; width:100%; overflow:hidden; }
+  .ss-ascii canvas, .ss-threads-canvas { max-width:none!important; }
+  /* Keep animated glow, but reduce its footprint and GPU load on small screens. */
+  div[class*="radial-gradient"] { max-width:100vw; opacity:.55; filter:blur(35px)!important; }
+  .backdrop-blur-2xl, .backdrop-blur-xl { -webkit-backdrop-filter:blur(6px)!important; backdrop-filter:blur(6px)!important; }
+  .liquid-glass { -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); }
+  .ssm-panel { width:100%; padding:6.5rem 1.25rem 1.5rem; }
+  #contact-cta { scroll-margin-top:5.5rem; }
+  #process .grid { gap:.85rem; }
+  #process .liquid-glass { border-radius:1.1rem; }
+  .ss-term { max-width:100%; }
 }
-html { scroll-behavior: smooth; scroll-padding-top: 1.5rem; }
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  :where(a, button, [role="button"], input, select, textarea) {
-    transition-duration: 0.01ms !important;
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
+
+/* Short phone landscape: don't force a tall hero while keeping the globe usable */
+@media (max-width:767px) and (orientation:landscape) {
+  section.min-h-screen { min-height:100svh; }
+  .ss-globe { width:min(38vw,250px); }
+}
+
+@media (prefers-reduced-motion:reduce) {
+  html { scroll-behavior:auto; }
+}
+
+
+/* ===== Mobile/tablet navigation alignment fix ===== */
+#root header {
+  box-sizing: border-box !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  padding-left: clamp(12px, 4vw, 24px) !important;
+  padding-right: clamp(12px, 4vw, 24px) !important;
+}
+#root header > nav {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 80rem;
+  min-width: 0 !important;
+  gap: 10px;
+}
+#root header > nav > div {
+  min-width: 0 !important;
+}
+#root header .ss-ihb {
+  flex-shrink: 0;
+}
+#root header .ssm-toggle {
+  flex-shrink: 0;
+}
+@media (max-width: 639px) {
+  #root header {
+    top: 12px !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+  #root header > nav {
+    padding: 9px 12px !important;
+    gap: 8px !important;
+    min-height: 46px;
+  }
+  #root header > nav > div:first-child {
+    flex: 0 0 auto;
+  }
+  #root header > nav > div:last-child {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 7px !important;
+    flex: 0 0 auto;
+  }
+  #root header .ss-ihb-sm {
+    padding: 7px 11px !important;
+    font-size: 9px !important;
+    letter-spacing: .045em !important;
+  }
+  #root header .ssm-toggle {
+    padding: 7px 11px !important;
+    font-size: 9px !important;
+    letter-spacing: .045em !important;
   }
 }
+@media (max-width: 360px) {
+  #root header {
+    padding-left: 9px !important;
+    padding-right: 9px !important;
+  }
+  #root header > nav {
+    padding-left: 9px !important;
+    padding-right: 9px !important;
+  }
+  #root header .ss-ihb-sm,
+  #root header .ssm-toggle {
+    padding-left: 9px !important;
+    padding-right: 9px !important;
+    font-size: 8px !important;
+  }
+}
+@media (min-width: 640px) and (max-width: 1023px) {
+  #root header {
+    padding-left: clamp(16px, 3vw, 28px) !important;
+    padding-right: clamp(16px, 3vw, 28px) !important;
+  }
+  #root header > nav {
+    padding-left: clamp(14px, 2.5vw, 28px) !important;
+    padding-right: clamp(14px, 2.5vw, 28px) !important;
+  }
+}
+
+
+/* ===== v16: compact responsive nav + balanced thread animation ===== */
+@media (max-width: 639px) {
+  #root header {
+    top: 10px !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+  #root header > nav {
+    padding: 7px 9px !important;
+    gap: 5px !important;
+    min-height: 44px;
+  }
+  #root header > nav > div:last-child {
+    gap: 5px !important;
+  }
+  /* Keep all three actions available on mobile. */
+  #root header .ssm-nav-send {
+    display: inline-flex !important;
+  }
+  #root header .ss-ihb-sm {
+    padding: 6px 8px !important;
+    font-size: 8px !important;
+    letter-spacing: .025em !important;
+    line-height: 1.1 !important;
+  }
+  /* Turn the animated MENU text into a clear three-line menu icon. */
+  #root header .ssm-toggle {
+    width: 34px !important;
+    min-width: 34px !important;
+    height: 30px !important;
+    padding: 0 !important;
+    flex: 0 0 34px !important;
+  }
+  #root header .ssm-toggle-wrap {
+    display: block !important;
+    width: 16px !important;
+    min-width: 16px !important;
+    height: 13px !important;
+    font-size: 0 !important;
+    line-height: 0 !important;
+    overflow: visible !important;
+    background:
+      linear-gradient(currentColor,currentColor) top left / 16px 1.5px no-repeat,
+      linear-gradient(currentColor,currentColor) center left / 16px 1.5px no-repeat,
+      linear-gradient(currentColor,currentColor) bottom left / 16px 1.5px no-repeat;
+  }
+  #root header .ssm-toggle-inner {
+    display: none !important;
+  }
+  #root header .ssm-toggle[data-open] .ssm-toggle-wrap {
+    background:
+      linear-gradient(currentColor,currentColor) center / 16px 1.5px no-repeat;
+    transform: rotate(45deg);
+  }
+  #root header .ssm-toggle[data-open] .ssm-toggle-wrap::after {
+    content: "";
+    position: absolute;
+    width: 16px;
+    height: 1.5px;
+    background: currentColor;
+    left: 0;
+    top: 5.75px;
+    transform: rotate(90deg);
+  }
+  /* Give the animated threads a wider, less pinched composition in portrait. */
+  #process .ss-threads {
+    position: absolute !important;
+    inset: 0 !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+  }
+  #process .ss-threads-canvas {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    transform: scale(1.22);
+    transform-origin: center center;
+    will-change: transform;
+  }
+  #process {
+    isolation: isolate;
+  }
+}
+@media (max-width: 380px) {
+  #root header {
+    padding-left: 7px !important;
+    padding-right: 7px !important;
+  }
+  #root header > nav {
+    padding-left: 7px !important;
+    padding-right: 7px !important;
+  }
+  #root header > nav > div:last-child {
+    gap: 4px !important;
+  }
+  #root header .ss-ihb-sm {
+    padding-left: 6px !important;
+    padding-right: 6px !important;
+    font-size: 7px !important;
+  }
+  #root header .ssm-toggle {
+    width: 30px !important;
+    min-width: 30px !important;
+    flex-basis: 30px !important;
+  }
+}
+@media (min-width: 640px) {
+  #root header .ssm-toggle-wrap {
+    min-width: 5ch;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #process .ss-threads-canvas {
+    transform: none !important;
+    will-change: auto;
+  }
+}
+
+@media (max-width:639px){#root header .ssm-toggle-wrap{position:relative!important}}
